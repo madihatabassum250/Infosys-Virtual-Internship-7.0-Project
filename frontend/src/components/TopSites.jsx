@@ -1,53 +1,128 @@
 import React from "react";
 
-const sites = [
-  ["Kutch, Gujarat", "5.8", "7.2", "92%"],
-  ["Jaisalmer, Rajasthan", "5.6", "6.8", "89%"],
-  ["Anantapur, Andhra Pradesh", "5.4", "6.5", "86%"],
-  ["Barmer, Rajasthan", "5.2", "6.3", "82%"],
-  ["Bikaner, Rajasthan", "5.1", "6.1", "80%"]
-];
+export default function TopSites({ sites = [] }) {
 
-export default function TopSites() {
+  const sortedSites = [...sites]
+    .sort(
+      (a, b) =>
+        Number(b.suitabilityScore || 0) -
+        Number(a.suitabilityScore || 0)
+    )
+    .slice(0, 5);
 
   return (
-    <section className="panel top-sites">
+    <div
+      style={{
+        padding: "10px",
+      }}
+    >
 
-      <div className="panel-header">
+      {sortedSites.length === 0 ? (
 
-        <h3>Top Performing Sites</h3>
+        <div
+          style={{
+            textAlign: "center",
+            padding: "25px 10px",
+            fontSize: "12px",
+            opacity: 0.6,
+          }}
+        >
+          No analyzed sites yet.
+        </div>
 
-        <button>View All</button>
+      ) : (
 
-      </div>
+        sortedSites.map((site, index) => {
 
-      {sites.map(
-        ([location, solar, wind, score], index) => (
+          const score = Math.round(
+            Number(site.suitabilityScore || 0)
+          );
 
-          <div className="site-row" key={location}>
+          return (
+            <div
+              key={`${site.latitude}-${site.longitude}-${index}`}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "12px 8px",
+                marginBottom: "8px",
+                borderRadius: "10px",
+                background:
+                  "rgba(255,255,255,0.04)",
+              }}
+            >
 
-            <div className="rank">
-              {index + 1}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  minWidth: 0,
+                }}
+              >
+
+                <strong>
+                  #{index + 1}
+                </strong>
+
+                <div>
+
+                  <div
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: "600",
+                    }}
+                  >
+                    {site.village ||
+                      "Unknown Location"}
+                  </div>
+
+                  <div
+                    style={{
+                      fontSize: "10px",
+                      opacity: 0.6,
+                    }}
+                  >
+                    {site.district || ""}
+                    {site.state
+                      ? `, ${site.state}`
+                      : ""}
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div
+                style={{
+                  textAlign: "right",
+                }}
+              >
+
+                <strong>
+                  {score}%
+                </strong>
+
+                <div
+                  style={{
+                    fontSize: "9px",
+                    opacity: 0.6,
+                  }}
+                >
+                  suitability
+                </div>
+
+              </div>
+
             </div>
+          );
 
-            <div className="site-info">
+        })
 
-              <strong>{location}</strong>
-
-              <small>
-                Solar: {solar} kWh/m²/day |
-                Wind: {wind} m/s
-              </small>
-
-            </div>
-
-            <em>{score}</em>
-
-          </div>
-
-        )
       )}
 
-    </section>
+    </div>
   );
 }
