@@ -1,47 +1,40 @@
 import React from "react";
 
 export default function StatCard({
-  icon: Icon,
   title,
   value,
-  unit,
-  trend,
-  color
+  icon,
+  footer,
+  positive = false
 }) {
   return (
-    <div className={`stat-card ${color || ""}`}>
+    <div className="stat-card">
 
-      <div className="stat-icon">
-        {Icon && <Icon size={25} />}
+      <div className="stat-card-header">
+
+        <div className="stat-icon">
+          {icon}
+        </div>
+
+        <div>
+          <div className="stat-title">
+            {title}
+          </div>
+
+          <div className="stat-value">
+            {value}
+          </div>
+        </div>
+
       </div>
 
-      <div className="stat-content">
-        <span>{title}</span>
-
-        <strong>{value}</strong>
-
-        {unit && (
-          <small>{unit}</small>
-        )}
-
-        {trend && (
-          <label>
-            ↑ {trend}
-            <i> vs last month</i>
-          </label>
-        )}
-      </div>
-
-      <div className="mini-chart">
-        {[25, 38, 29, 48, 35, 52, 42].map(
-          (height, index) => (
-            <i
-              key={index}
-              style={{ height: `${height}px` }}
-            />
-          )
-        )}
-      </div>
+      {footer && (
+        <div className="stat-footer">
+          <span className={positive ? "stat-positive" : "stat-muted"}>
+            {footer}
+          </span>
+        </div>
+      )}
 
     </div>
   );

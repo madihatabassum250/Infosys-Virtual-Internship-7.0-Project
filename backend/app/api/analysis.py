@@ -33,10 +33,11 @@ def analyze(
         longitude = location["longitude"]
 
         # 2. Run your existing prediction pipeline
+
         result = pipeline.analyze(
             latitude,
-            longitude
-        )
+            longitude,
+            date)
 
         # 3. Add location information
         result["location"] = {

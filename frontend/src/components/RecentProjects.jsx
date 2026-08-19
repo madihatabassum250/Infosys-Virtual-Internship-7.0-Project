@@ -1,57 +1,121 @@
 import React from "react";
 
-const projects = [
-  ["☀️", "Rajasthan Solar Park", "Updated 2h ago", "In Progress"],
-  ["🌬️", "Gujarat Wind Farm", "Updated 5h ago", "Completed"],
-  ["☀️", "Maharashtra Hybrid Project", "Updated 1d ago", "In Progress"],
-  ["🌬️", "Kutch Mega Solar Project", "Updated 2d ago", "Planning"]
-];
+export default function RecentProjects({
+  projects = [],
+}) {
 
-export default function RecentProjects() {
+  const recentProjects = [...projects]
+    .reverse()
+    .slice(0, 5);
 
   return (
-    <section className="panel recent-projects">
+    <div
+      style={{
+        padding: "10px",
+      }}
+    >
 
-      <div className="panel-header">
+      {recentProjects.length === 0 ? (
 
-        <h3>Recent Projects</h3>
+        <div
+          style={{
+            textAlign: "center",
+            padding: "25px 10px",
+            fontSize: "12px",
+            opacity: 0.6,
+          }}
+        >
+          No recent analyses.
+        </div>
 
-        <button>View All</button>
+      ) : (
 
-      </div>
+        recentProjects.map(
+          (project, index) => {
 
-      {projects.map(
-        ([icon, name, time, status]) => (
+            const score = Math.round(
+              Number(
+                project.suitabilityScore || 0
+              )
+            );
 
-          <div
-            className="project-row"
-            key={name}
-          >
+            const date =
+              project.date ||
+              project.analyzedAt;
 
-            <div className="project-icon">
-              {icon}
-            </div>
+            return (
 
-            <div>
-              <strong>{name}</strong>
-              <small>{time}</small>
-            </div>
+              <div
+                key={`${project.latitude}-${project.longitude}-${index}`}
+                style={{
+                  display: "flex",
+                  justifyContent:
+                    "space-between",
+                  alignItems: "center",
+                  padding: "11px 8px",
+                  marginBottom: "8px",
+                  borderBottom:
+                    "1px solid rgba(255,255,255,0.06)",
+                }}
+              >
 
-            <em className={
-              status === "Completed"
-                ? "completed"
-                : status === "Planning"
-                ? "planning"
-                : ""
-            }>
-              {status}
-            </em>
+                <div>
 
-          </div>
+                  <div
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: "600",
+                    }}
+                  >
+                    {project.village ||
+                      "Unknown Location"}
+                  </div>
 
+                  <div
+                    style={{
+                      fontSize: "10px",
+                      opacity: 0.6,
+                      marginTop: "3px",
+                    }}
+                  >
+                    {project.district || ""}
+                    {project.state
+                      ? `, ${project.state}`
+                      : ""}
+                  </div>
+
+                </div>
+
+
+                <div
+                  style={{
+                    textAlign: "right",
+                  }}
+                >
+
+                  <strong>
+                    {score}%
+                  </strong>
+
+                  <div
+                    style={{
+                      fontSize: "9px",
+                      opacity: 0.6,
+                    }}
+                  >
+                    {date || "Analyzed"}
+                  </div>
+
+                </div>
+
+              </div>
+
+            );
+          }
         )
+
       )}
 
-    </section>
+    </div>
   );
 }

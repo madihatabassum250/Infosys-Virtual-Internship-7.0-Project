@@ -9,6 +9,7 @@ from app.api.feature import router as feature_router
 from app.api.solar import router as solar_router
 from app.api.analysis import router as analysis_router
 from app.api.predict import router as predict_router
+from app.api.ai import router as ai_router
 
 from app.database.database import engine, Base
 from app.models.feature import Feature
@@ -36,7 +37,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 # ============================================================
 # DATABASE
 # ============================================================
@@ -56,6 +56,11 @@ app.include_router(feature_router)
 app.include_router(solar_router)
 app.include_router(analysis_router)
 app.include_router(predict_router)
+app.include_router(
+    ai_router,
+    prefix="/ai",
+    tags=["AI"]
+)
 
 
 # ============================================================
