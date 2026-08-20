@@ -1,6 +1,7 @@
 # Secrets
 .env
 .env.*
+*.env
 !.env.example
 
 # Node
@@ -28,7 +29,7 @@ Thumbs.db
 # Logs
 *.log
 
-.README.md
+*.README.md
 
 #README/
 README/

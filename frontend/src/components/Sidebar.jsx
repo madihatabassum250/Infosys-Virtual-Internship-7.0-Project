@@ -13,8 +13,8 @@ import {
   Bell,
   Settings,
   CircleHelp,
-  Bot
 } from "lucide-react";
+
 
 const menuItems = [
   ["Dashboard", LayoutDashboard],
@@ -27,22 +27,38 @@ const menuItems = [
   ["Reports", FileText],
   ["Data Sources", Database],
   ["Alerts", Bell],
-  ["Settings", Settings]
+  ["Settings", Settings],
 ];
 
-export default function Sidebar({ activePage, setActivePage }) {
+
+export default function Sidebar({
+  activePage,
+  setActivePage,
+}) {
 
   return (
+
     <aside className="sidebar">
+
+      {/* =====================================================
+          BRAND
+      ===================================================== */}
 
       <div className="brand">
 
         <div className="brand-logo">
+
           <Sun size={31} />
+
           <Wind size={27} />
+
         </div>
 
-        <h2>Solar & Wind</h2>
+
+        <h2>
+          Solar & Wind
+        </h2>
+
 
         <p>
           Deployment Intelligence
@@ -52,68 +68,95 @@ export default function Sidebar({ activePage, setActivePage }) {
 
       </div>
 
+
+      {/* =====================================================
+          NAVIGATION
+      ===================================================== */}
+
       <nav className="sidebar-nav">
 
-        {menuItems.map(([name, Icon]) => (
+        {menuItems.map(
+          ([name, Icon]) => (
 
-          <button
-            key={name}
-            className={`nav-item ${
-              activePage === name ? "active" : ""
-            }`}
-            onClick={() => setActivePage(name)}
-          >
+            <button
+              key={name}
+              type="button"
+              className={`nav-item ${
+                activePage === name
+                  ? "active"
+                  : ""
+              }`}
+              onClick={() =>
+                setActivePage(name)
+              }
+            >
 
-            <Icon size={18} />
+              <Icon
+                size={18}
+                strokeWidth={1.8}
+              />
 
-            <span>{name}</span>
 
-            {name === "Alerts" && (
-              <em>8</em>
-            )}
+              <span>
+                {name}
+              </span>
 
-          </button>
 
-        ))}
+              {name === "Alerts" && (
+
+                <em>
+                  8
+                </em>
+
+              )}
+
+            </button>
+
+          )
+        )}
 
       </nav>
 
-      <div className="assistant-card">
 
-        <div className="assistant-heading">
-          <Bot size={22} />
+      {/* =====================================================
+          BOTTOM LINKS
+          AI ASSISTANT REMOVED
+      ===================================================== */}
 
-          <div>
-            <strong>AI Assistant</strong>
-            <small>● Online</small>
-          </div>
-        </div>
-
-        <p>
-          Ask me anything about solar, wind potential
-          and site selection.
-        </p>
+      <div className="sidebar-bottom">
 
         <button
-          onClick={() =>
-            setActivePage("AI Recommendations")
-          }
+          type="button"
+          className="sidebar-bottom-link"
         >
-          Ask AI →
+
+          <CircleHelp size={17} />
+
+          <span>
+            Help & Support
+          </span>
+
+        </button>
+
+
+        <button
+          type="button"
+          className="sidebar-bottom-link theme-button"
+        >
+
+          <span>
+            ☼ Theme
+          </span>
+
+          <span>
+            ◐
+          </span>
+
         </button>
 
       </div>
 
-      <div className="help-link">
-        <CircleHelp size={17} />
-        Help & Support
-      </div>
-
-      <div className="theme-control">
-        <span>☼ Theme</span>
-        <span>◐</span>
-      </div>
-
     </aside>
+
   );
 }
